@@ -1,4 +1,4 @@
-public class SplayTree<T extends Comparable<T>> {
+public class SplayTree<T extends Comparable<T>> implements ToImplement<T>{
     private Node<T> root;
 
     private static class Node<T> {
