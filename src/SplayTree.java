@@ -1,7 +1,12 @@
+import javax.swing.tree.TreeNode;
+
 public class SplayTree<T extends Comparable<T>> implements ToImplement<T>{
     private Node<T> root;
 
     private static class Node<T> {
+        public String key;
+        public Node<T> left;
+        public Node<T> right;
         T value;
         Node<T> parent;
         Node<T> leftChild;
@@ -121,4 +126,47 @@ public class SplayTree<T extends Comparable<T>> implements ToImplement<T>{
         leftChild.rightChild = node;
         node.parent = leftChild;
     }
+    public TreeNode getRoot() {
+        return (TreeNode) root;
+    }
+
+    private SplayTree left;
+    private String key;
+    private String value;
+    private SplayTree right;
+
+    public SplayTree() {
+        this.root = null;
+    }
+
+    public void printInOr(SplayTree node) {
+        if (node != null) {
+            printInOr(node.left);
+            System.out.print("(" + node.key + ", " + node.value + ") ");
+            printInOr(node.right);
+        }
+    }
+
+    public TreeNode getHelper(SplayTree.Node<T> node, String key) {
+        if (node == null) {
+            return null;
+        }
+        if (key.equals(node.key)) {
+            return (TreeNode) node;
+        } else if (key.compareTo(node.key) < 0) {
+            return getHelper(node.left, key);
+        } else {
+            return getHelper(node.right, key);
+        }
+    }
+
+    public String get(String key) {
+        SplayTree node = (SplayTree) getHelper(this.root, key);
+        if (node != null) {
+            return node.value;
+        } else {
+            return "*"+key+"*";
+        }
+    }
+
 }
